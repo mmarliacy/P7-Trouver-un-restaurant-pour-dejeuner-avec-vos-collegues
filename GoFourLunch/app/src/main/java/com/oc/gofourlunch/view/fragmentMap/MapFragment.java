@@ -5,7 +5,9 @@ import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -83,6 +85,7 @@ import retrofit2.Response;
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     FragmentMapBinding binding;
+    private String api_key;
     //--:: Map default parameters ::--
     GoogleMap map;
     LatLng defaultLocation = new LatLng(48.707795, 2.440960);
@@ -145,9 +148,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         //--:: Set support Toolbar ::--
         toolbar = requireActivity().findViewById(R.id.toolbar);
         ((AppCompatActivity)requireActivity()).setSupportActionBar(toolbar);
+        try {
+            ApplicationInfo varInfo_key = getActivity().getPackageManager().getApplicationInfo(getActivity().getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            api_key = varInfo_key.metaData.getString("com.google.android.geo.API_KEY");
+        } catch (PackageManager.NameNotFoundException pE) {
+            pE.printStackTrace();
+        }
 
         // Construct a PlacesClient
-        Places.initialize(requireContext(), getString(R.string.API_KEY));
+        Places.initialize(requireContext(), api_key);
         placesClient = Places.createClient(requireActivity());
 
         // Construct a FusedLocationProviderClient.
@@ -388,7 +397,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     + location.getLongitude()
                     + "&radius=" + radius
                     + "&type=restaurant"
-                    + "&key=" + getResources().getString(R.string.API_KEY);
+                    + "&key=" + api_key;
 
             retrofitService.getNearByPlaces(url).enqueue(new Callback<GooglePlacesModel>() {
                 @SuppressLint("NotifyDataSetChanged")

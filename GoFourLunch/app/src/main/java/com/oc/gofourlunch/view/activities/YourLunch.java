@@ -1,6 +1,8 @@
 package com.oc.gofourlunch.view.activities;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,9 +44,7 @@ import retrofit2.Response;
 
 public class YourLunch extends AppCompatActivity {
     private static final String TAG = "";
-    //----------
-    // FOR DATA
-    //----------
+    private String api_key;
     public User user;
     public FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     public FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -66,6 +66,15 @@ public class YourLunch extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_lunch);
+        try {
+            //----------
+            // FOR DATA
+            //----------
+            ApplicationInfo varInfo_key = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            api_key = varInfo_key.metaData.getString("com.google.android.geo.API_KEY");
+        } catch (PackageManager.NameNotFoundException pE) {
+            pE.printStackTrace();
+        }
         placesClient = Places.createClient(this);
             getPlaceIdAccordingToCurrentUser();
     }
@@ -93,7 +102,6 @@ public class YourLunch extends AppCompatActivity {
 
 
     private void getRestaurantDetailsAccordingToId(String pPlaceId){
-        String api_key = getResources().getString(R.string.API_KEY);
         String url = "https://maps.googleapis.com/maps/api/place/details/json?"
                 + "placeid="
                 + pPlaceId + "&key=" + api_key;

@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         //--:: 2 -- Create and launch sign-in intent ::-->
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setTheme(R.style.LoginTheme)
+                .setTheme(R.style.LoginTheme_NoActionBar)
                 .setAvailableProviders(varProviders)
                 .setIsSmartLockEnabled(false, true)
                 .setLogo(R.drawable.starter_logo)

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -73,6 +75,7 @@ public class RestaurantActivity extends AppCompatActivity {
     // FOR DATA
     //----------
     private static final String TAG = Activity.class.getName();
+    private String api_key;
     private static final String DEFAULT = "No data";
     private PlacesClient placesClient;
     private Bitmap bitmap;
@@ -105,6 +108,12 @@ public class RestaurantActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
+        try {
+            ApplicationInfo varInfo_key = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            api_key = varInfo_key.metaData.getString("com.google.android.geo.API_KEY");
+        } catch (PackageManager.NameNotFoundException pE) {
+            pE.printStackTrace();
+        }
         noImageFound = getResources().getDrawable(R.drawable.no_image_found);
         //-- ::> Instantiation of PlaceClient.
         placesClient = Places.createClient(this);
@@ -357,7 +366,6 @@ public class RestaurantActivity extends AppCompatActivity {
         websiteBtn = findViewById(R.id.website_btn);
 
         //--:: 2 -- Get place details by retrofit request .
-        String api_key = getResources().getString(R.string.API_KEY);
         String url = "https://maps.googleapis.com/maps/api/place/details/json?"
                 + "placeid="
                 + pPlaceId + "&key=" + api_key;

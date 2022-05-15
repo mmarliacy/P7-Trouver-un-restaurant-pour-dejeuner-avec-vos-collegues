@@ -6,6 +6,8 @@ import static com.oc.gofourlunch.view.activities.RestaurantActivity.subscribedUs
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -96,6 +98,7 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
         setNavigationView();
         checkIfUserIsInDb();
         retrieveInfoForNotification();
+
     }
 
     //----------------------
