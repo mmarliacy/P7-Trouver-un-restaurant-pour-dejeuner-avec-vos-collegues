@@ -1,0 +1,97 @@
+<resources>
+    // ---------------------:: Authentication Facebook Login ::----------------------
+    <string name="facebook_application_id" translatable="false">726651275186774</string>
+    <string name="facebook_app_id" translatable="false">726651275186774</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb726651275186774</string>
+
+    // ---------------------:: DRAWER STATE ::----------------------
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+
+    <string name="channel_name">Meeting for eating</string>
+    <string name="channel_description">Set a clock alarm to not forget the lunch meeting</string>
+
+    // ---------------------:: BY TYPE OF WIDGETS ::----------------------
+
+    <!--:: Titles ::-->
+    <string name="app_toolbar_title">I\'m hungry</string>
+    <string name="app_name">Go4Lunch</string>
+
+    <!--:: Content Descriptions / Image Views ::-->
+    <string name="restaurant_form_picture" translatable="false">restaurant_form_picture</string>
+    <string name="check_fab_btn" translatable="false">check_fab_btn</string>
+    <string name="message_picture" translatable="false">message_picture</string>
+    <string name="coworker_profile_picture" translatable="false">coworker profile picture</string>
+    <string name="restaurant_picture" translatable="false">restaurant_picture</string>
+    <string name="profile_picture" translatable="false">Profile picture</string>
+    <string name="logo" translatable="false">logo</string>
+
+    <!--:: Text Views ::-->
+    <string name="restaurant_name" translatable="false">Le Zinc</string>
+    <string name="restaurant_type" translatable="false">French</string>
+    <string name="dash" translatable="false">-</string>
+    <string name="restaurant_address" translatable="false">12, rue du Faubourg Poissonniere</string>
+    <string name="restaurant_openings" translatable="false">Open until 7 pm</string>
+    <string name="distance_from_restaurant" translatable="false">120 m</string>
+    <string name="notifications">NOTIFICATIONS</string>
+    <string name="localisation">LOCALISATION</string>
+    <string name="refine_my_research">Refine my research</string>
+    <string name="distance" translatable="false">300 m</string>
+    <string name="message_state" translatable="false">Sent by Sacha at 10:50 am</string>
+    <string name="a_coworker_eating_somewhere">Sacha is eating Indian (Abu Indie)</string>
+    <string name="coworker_is_joining">Sacha is joining !</string>
+    <string name="counted_coworkers" translatable="false">(2)</string>
+    <string name="profile_name" translatable="false">John SMITH</string>
+    <string name="profile_mail" translatable="false">jsmith.1337@gmail.com</string>
+
+    <!--:: Text Input Layouts ::-->
+    <string name="message" translatable="false">Message</string>
+
+    <!--:: Buttons ::-->
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="website">WEBSITE</string>
+    <string name="delete_my_account" translatable="false">DELETE MY ACCOUNT</string>
+
+    <!--:: Floating Action Buttons ::-->
+    <string name="my_location_btn" translatable="false">my_location_btn</string>
+
+    <!--:: Switch Buttons ::-->
+    <string name="notifications_state">Notifications disabled</string>
+    <string name="chat_state" translatable="false">Chat disabled</string>
+
+
+    <!--:: Bottom Navigation Menu ::-->
+    <string name="map_view">Map View</string>
+    <string name="list_view">List View</string>
+    <string name="workmates">Workmates</string>
+    <string name="chat">Chat</string>
+
+    <!--:: Navigation Drawer Menu ::-->
+    <string name="your_lunch">YOUR LUNCH</string>
+    <string name="settings">SETTINGS</string>
+    <string name="logout">LOGOUT</string>
+
+    <!--:: Toolbar Menu ::-->
+    <string name="search">Search</string>
+    <string name="default_info_title">Here</string>
+    <string name="default_info_snippet">place</string>
+    <string name="pick_place" translatable="false">Restaurant</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="unavailable_opening_hours">Openings hours is not available</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="user_is_joining">\" is joining\"</string>
+    <string name="user_is_eating">\" is eating in \"</string>
+    <string name="none_happened">Nothing happened</string>
+    <string name="Meet_your_coworkers_at">\"Meet your coworkers at \"</string>
+    <string name="with">\" with \"</string>
+    <string name="cancelled_authentication">The authentication has been cancelled</string>
+    <string name="cancelled_authentication_because_of">\"The authentication has been cancelled because of, \"</string>
+    <string name="Notifications_enabled">Notifications enabled</string>
+    <string name="Choose_a_restaurant_first">Choose a restaurant first</string>
+    <string name="You_logged_out">You logged out</string>
+</resources>

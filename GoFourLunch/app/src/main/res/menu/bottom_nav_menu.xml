@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--:: "Map View" ::-->
+    <item
+        android:id="@+id/map_view"
+        android:title="@string/map_view"
+        android:icon="@drawable/map_item_icon"
+        android:enabled="true"/>
+    <!--:: "List View" ::-->
+    <item
+        android:id="@+id/list_view"
+        android:title="@string/list_view"
+        android:icon="@drawable/list_item_icon"
+        android:enabled="true"/>
+    <!--:: "Workmates" ::-->
+    <item
+        android:id="@+id/workmates"
+        android:title="@string/workmates"
+        android:icon="@drawable/workmates_item_icon"
+        android:enabled="true"/>
+</menu>

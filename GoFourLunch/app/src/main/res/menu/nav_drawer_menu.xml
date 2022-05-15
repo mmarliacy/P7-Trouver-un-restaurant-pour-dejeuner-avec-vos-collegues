@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--:: "My Lunch" ::-->
+        <item
+            android:id="@+id/lunch_item"
+            android:icon="@drawable/lunch_item_icon"
+            android:title="@string/your_lunch" />
+    <!--:: "Settings" ::-->
+        <item
+            android:id="@+id/settings_item"
+            android:icon="@drawable/settings_item_icon"
+            android:title="@string/settings"/>
+    <!--:: "Logout" ::-->
+        <item
+            android:id="@+id/log_out_item"
+            android:icon="@drawable/logout_item_icon"
+            android:title="@string/logout"/>
+</menu>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "488489301537",
+    "project_id": "gofourlunch-87f84",
+    "storage_bucket": "gofourlunch-87f84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488489301537:android:c019859b48d6f8ba0d9560",
+        "android_client_info": {
+          "package_name": "com.oc.gofourlunch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488489301537-qu1j441g7lhpt0e2vbrhcjgbajm235ld.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oc.gofourlunch",
+            "certificate_hash": "b2932cd036dcb763a7f02680bb70c5804675e075"
+          }
+        },
+        {
+          "client_id": "488489301537-96li3e42hdkovcenbsh4apig3ia5q4mn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd_vv9gwie0KsF2H6FNW2CxEHPmfTY7pA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488489301537-96li3e42hdkovcenbsh4apig3ia5q4mn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

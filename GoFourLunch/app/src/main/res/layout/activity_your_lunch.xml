@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.YourLunch">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/black"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_2"
+            android:gravity="center"
+            android:text="YOUR LUNCH"
+            android:textColor="@color/colorAccent"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/restaurant_status_picture"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/restaurant_picture"
+        app:layout_constraintBottom_toTopOf="@id/relative_layout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_status_picture">
+
+        <!--:: Rating Bar ::-->
+
+        <RatingBar
+            android:id="@+id/restaurant_form_rating_bar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view2"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/restaurant_status_type"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressTint="@color/yellow"
+            android:rating="5" />
+
+        <TextView
+            android:id="@+id/nameStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginEnd="25sp"
+            android:layout_marginBottom="25sp"
+            android:text="Name :"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/restaurant_status_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="25sp"
+            android:layout_toRightOf="@id/nameStatus"
+            android:text="Chez Francky"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/nameStatus"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
+            android:background="@color/light_grey" />
+
+        <TextView
+            android:id="@+id/address_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view1"
+            android:layout_marginStart="25sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginEnd="25sp"
+            android:layout_marginBottom="25sp"
+            android:text="Address :"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/restaurant_status_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view1"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="25sp"
+            android:layout_toRightOf="@id/address_status"
+            android:text="5, Bd Maréchal Pétain 91230 Montgeron"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/address_status"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="100dp"
+            android:background="@color/light_grey" />
+
+        <TextView
+            android:id="@+id/type_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view2"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:text="Type / Rate :"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/restaurant_status_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view2"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="25sp"
+            android:layout_toRightOf="@id/type_status"
+            android:text="Café"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/restaurant_status_type"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
+            android:text="Contact us"
+            android:textColor="@color/colorAccent"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/contact"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/light_grey" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/phone_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/type_status"
+
+            android:layout_marginTop="70dp"
+            app:fabCustomSize="70dp"
+            android:layout_alignLeft="@+id/view4"
+            app:maxImageSize="30dp"
+            app:srcCompat="@drawable/phone_icon" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/website_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/type_status"
+            android:layout_alignRight="@+id/view4"
+            android:layout_marginTop="70dp"
+
+            app:fabCustomSize="70dp"
+            app:maxImageSize="30dp"
+            app:srcCompat="@drawable/website_icon" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

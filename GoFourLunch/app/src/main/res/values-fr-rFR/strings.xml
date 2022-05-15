@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Go4Lunch</string>
+    <string name="navigation_drawer_open">navigation drawer ouvert</string>
+    <string name="navigation_drawer_close">navigation drawer fermé</string>
+    <string name="channel_name">"Rendez-vous pour manger "</string>
+    <string name="channel_description">Mettre en place une alarme pour ne pas oublier le déjeuner</string>
+    <string name="app_toolbar_title">J\'ai faim</string>
+    <string name="notifications">NOTIFICATIONS</string>
+    <string name="localisation">LOCALISATION</string>
+    <string name="refine_my_research">Redéfinir ma recherche</string>
+    <string name="a_coworker_eating_somewhere">Sacha mange Indien (Abu Indie)</string>
+    <string name="coworker_is_joining">Sacha rejoint !</string>
+    <string name="call">APPEL</string>
+    <string name="website">SITE WEB</string>
+    <string name="like" translatable="false">LIKE</string>
+    <string name="notifications_state" translatable="false">Notifications desactivées</string>
+    <string name="map_view">Carte</string>
+    <string name="list_view">Liste</string>
+    <string name="workmates">Collègues</string>
+    <string name="chat">Chat</string>
+    <string name="your_lunch">TON DEJEUNER</string>
+    <string name="settings">PARAMETRES</string>
+    <string name="logout">DECONNEXION</string>
+    <string name="search">Rechercher</string>
+    <string name="default_info_title">Ici</string>
+    <string name="default_info_snippet">endroit</string>
+    <string name="unavailable_opening_hours">Les heures ne sont pas disponibles</string>
+    <string name="user_is_joining">\ rejoint</string>
+    <string name="user_is_eating">\ mange à/au \ </string>
+    <string name="none_happened">Rien ne s\'est produit</string>
+    <string name="Meet_your_coworkers_at">Rencontre tes collègues à/au</string>
+    <string name="with">avec</string>
+    <string name="cancelled_authentication">L\'authentication a été annulé</string>
+    <string name="cancelled_authentication_because_of">"L'authentication a été annulé à cause de "</string>
+    <string name="Notifications_enabled">"Notifications activées "</string>
+    <string name="Choose_a_restaurant_first">Choisi d\'abord un restaurant</string>
+    <string name="You_logged_out">Tu t\'es déconnecté</string>
+</resources>

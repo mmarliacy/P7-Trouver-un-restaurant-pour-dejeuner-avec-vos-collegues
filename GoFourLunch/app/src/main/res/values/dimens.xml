@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    ------------------------------------------------------------------------------------------------
+    -------------------------------------*** PORTRAIT MODE ***--------------------------------------
+    ------------------------------------------------------------------------------------------------
+    //--:: MAIN ACTIVITY ::-->>
+    ---** App Bar Layout **---
+    Id --> topAppBar
+    <dimen name="layout_width_main_act">0dip</dimen>
+    <dimen name="fab_custom_size">55dip</dimen>
+    <dimen name="max_image_size">25dip</dimen>
+
+    ---** Toolbar **---
+    Id --> toolbar
+    <dimen name="elevation">0dip</dimen>
+
+    ---** Frame Layout **---
+    Id --> fragment
+    <dimen name="layout_height_fl">0dip</dimen>
+
+    ---** Bottom Navigation View **---
+    Id --> bottom_nav_menu
+    <dimen name="layout_height_bnv">60dip</dimen>
+
+    ---** Image View **---
+    Id --> logo
+    <dimen name="logo_size">140dip</dimen>
+    <dimen name="marginStart_logo">80dip</dimen>
+
+    ----------------------------------------------------
+    //--:: RESTAURANT ACTIVITY ::-->>
+
+    ---** ImageView **---
+    Id --> restaurant_form_picture
+    <dimen name="height_rfp">0dip</dimen>
+
+    ---** Floating Action Button **---
+    Id --> check_fab_btn
+    <dimen name="marginTop_cfb">190dip</dimen>
+    <dimen name="marginEnd_cfb">20dip</dimen>
+    <dimen name="fabCustomSize_cfb">60dip</dimen>
+    <dimen name="maxImageSize_cfb">30dip</dimen>
+
+
+    ---** RelativeLayout **---
+    Id --> presentation_layout
+    <dimen name="height_pl">0dip</dimen>
+
+    ---** TextView **---
+    Id --> restaurant_form_name
+    <dimen name="marginStart_rfn">10dip</dimen>
+    <dimen name="marginTop_rfn">10dip</dimen>
+    <dimen name="textSize_rfn">20sp</dimen>
+    ...........................................
+    Id --> restaurant_form_type, dash, restaurant_form_address
+    <dimen name="marginStart_rft">10dip</dimen>
+    <dimen name="marginStart_rf">5dip</dimen>
+    <dimen name="marginTop_rf">5dip</dimen>
+    <dimen name="textSize_rf">15sp</dimen>
+
+    ---** Rating Bar **---
+    Id --> restaurant_form_rating_bar
+    <dimen name="marginStart_rfr">15dip</dimen>
+    <dimen name="marginBottom_rfr">5dip</dimen>
+
+
+    ---** Linear Layout **---
+    Id --> btn_Layout
+    <dimen name="height_bl">0dip</dimen>
+
+    ---** Button **---
+    Id --> call_btn, like_btn, website_btn
+    <dimen name="textSize_btn">20sp</dimen>
+
+    ---** View **---
+    Id --> view
+    <dimen name="height_view">2dip</dimen>
+
+    ---** RecyclerView **---
+    Id --> registered_workmates_list
+    <dimen name="height_rwl">0dip</dimen>
+
+    ----------------------------------------------------------
+    //-- SETTINGS ACTIVITY -->>
+
+    ---** Linear Layout **---
+    Id --> notification_layout, activation_layout
+    <dimen name="width_height_slay">0dip</dimen>
+    Id --> refine_layout
+    <dimen name="height_rl">40dip</dimen>
+
+    ---** TextView **---
+    Id --> notification_chat_title, localisation_title
+    <dimen name="textSize_ncl">20sp</dimen> //Notifications-Chat-Localisation
+    ..................................
+    Id --> refine_my_research_title
+    <dimen name="marginStart_rmr">10dip</dimen>
+    <dimen name="textSize_rmr">16sp</dimen>
+    ..................................
+    Id --> localisation_distance_seekBar
+    <dimen name="marginEnd_lds">10dip</dimen>
+    <dimen name="textSize_lds">12sp</dimen>
+
+    ---** Switch (Material) **---
+    Id --> notification_btn, chat_btn
+    <dimen name="height_nc">0dip</dimen>
+    <dimen name="marginStart_nc">10dip</dimen>
+    <dimen name="marginEnd_nc">20dip</dimen>
+    <dimen name="textSize_nc">20sp</dimen>
+
+    ---** View **---
+    Id --> view2
+    <dimen name="height_view2">2dip</dimen>
+
+    ---** Button **---
+    Id --> delete_account_btn
+    <dimen name="marginBottom_dab">40dip</dimen>
+    <dimen name="textSize_dab">20sp</dimen>
+
+    ---------------------------------------------------------
+    //--:: FRAGMENT_CHAT ::-->>
+
+    ---** RecyclerView **---
+    Id --> chat_recyclerview
+    <dimen name="height_crv">0dip</dimen>
+
+    ---** Constraint Layout **---
+    Id --> chat_block
+    <dimen name="height_cb">0dip</dimen>
+
+    ---** Text Input Layout / Edit Text **---
+    Id --> chat_text
+    <dimen name="width_ct">0dip</dimen>
+    <dimen name="marginStart_ct">10dip</dimen>
+
+    ---** Image Button **---
+    Id --> sent_chat_btn
+    <dimen name="width_height_scb">50dip</dimen>
+    ------------------------------------------------------------
+    //--:: FRAGMENT_MAP ::-->>
+
+    ---** Floating Action Button **---
+    Id --> fab_my_location
+    <dimen name="marginEnd_fml">60dip</dimen>
+    <dimen name="marginBottom_fml">30dip</dimen>
+    ------------------------------------------------------------
+    //--:: ITEM_CHAT_LIST ::-->>
+
+    ---** ImageView **---
+    Id --> message_picture
+    <dimen name="width_height_mp">70dip</dimen>
+
+    ---** TextView **---
+    Id --> message_chat
+    <dimen name="width_mc">250dip</dimen>
+    <dimen name="height_mc">30dip</dimen>
+    <dimen name="marginStart_mc">10dip</dimen>
+    <dimen name="marginTop_mc">8dip</dimen>
+    <dimen name="paddingStart_mc">20dip</dimen>
+    <dimen name="paddingEnd_mc">20dip</dimen>
+    <dimen name="textSize_mc">15sp</dimen>
+    ........................................
+    Id --> message_state
+    <dimen name="paddingStart_ms">10dip</dimen>
+    <dimen name="paddingEnd_ms">10dip</dimen>
+    <dimen name="textSize_ms">13sp</dimen>
+    ------------------------------------------------------------
+    //--:: ITEM_COWORKERS_LIST ::-->>
+
+    ---** ImageView **---
+    Id --> coworker_picture_item
+    <dimen name="width_height_cpi">80dip</dimen>
+    <dimen name="margin_cpi">10dip</dimen>
+
+    ---** TextView **---
+    Id --> coworker_is_eating
+    <dimen name="marginTop_cie">40dip</dimen>
+    -----------------------------------------------------------
+    //--:: ITEM_REGISTERED_WORKMATES_RESTAURANT ::-->>
+
+    ---** ImageView **---
+    Id --> coworker_picture_item
+    (width + height + margin same to the last one)
+
+    ---** TextView **---
+    Id --> coworker_is_joining
+    <dimen name="marginTop_cij">40dip</dimen>
+    -----------------------------------------------------------
+    //--:: ITEM_RESTAURANT_LIST ::-->>
+
+    ---** Relative Layout **---
+    Id --> restaurant_informations_block
+    <dimen name="marginStart_rib">10dip</dimen>
+    <dimen name="marginTop_rib">10dip</dimen>
+
+    ---** TextView **---
+    Id --> restaurant_name
+    <dimen name="textSize_rn">16sp</dimen>
+    ......................................
+    Id --> restaurant_type, dash, restaurant_address, restaurant_openings (item)
+    <dimen name="marginTop_r_item">5dip</dimen>
+    <dimen name="marginTop_r_hours_item">40dip</dimen>
+    <dimen name="marginStart_r_item">5dip</dimen>
+    <dimen name="textSize_r_item">13sp</dimen>
+    .........................................
+    Id --> distance_from_restaurant
+    <dimen name="marginTop_dfr">10dip</dimen>
+    <dimen name="marginEnd_dfr">15dip</dimen>
+    <dimen name="textSize_dfr">14sp</dimen>
+    .........................................
+    Id --> counted_coworkers
+    <dimen name="marginTop_cc">2dip</dimen>
+    <dimen name="marginEnd_cc">10dip</dimen>
+    <dimen name="textSize_cc">14sp</dimen>
+
+    ---** Rating Bar **---
+    Id --> restaurant_rating_bar
+    <dimen name="marginEnd_rrb">10dip</dimen>
+
+    ---** ImageView **---
+    Id --> restaurant_picture
+    <dimen name="width_height_rp">70dip</dimen>
+    <dimen name="marginEnd_rp">10dip</dimen>
+
+    -----------------------------------------------------------
+    //--:: NAV_HEADER ::-->>
+
+    ---** Linear Layout **---
+    Id --> linearlayout
+    <dimen name="height_ll">250dip</dimen>
+
+    ---** TextView **---
+    Id --> app_name
+    <dimen name="textSize_an">40sp</dimen>
+    <dimen name="marginTop_an">50dip</dimen>
+    .........................................
+    Id --> profile_name
+    <dimen name="marginTop_pn">20dip</dimen>
+    <dimen name="marginStart_pn">3dip</dimen>
+    <dimen name="textSize_pn">15sp</dimen>
+    .........................................
+    Id --> profile_mail
+    <dimen name="marginStart_pm">3dip</dimen>
+    <dimen name="textSize_pm">15sp</dimen>
+
+    ---** Relative Layout **---
+    Id --> nav_header_profile
+    <dimen name="marginTop_nhp">50dip</dimen>
+
+    ---** ImageView **---
+    Id --> profile_picture
+    <dimen name="width_height_pp">80dip</dimen>
+    <dimen name="marginStart_pp">10dip</dimen>
+    <dimen name="marginBottom_pp">20dip</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>
