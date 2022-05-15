@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.fragmentChat.ChatFragment">
+
+    <!--:: Chat RecyclerView ::-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_crv"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_chat_list" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_block"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_cb"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_recyclerview">
+
+        <!--:: Message block ::-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/chat_text"
+            android:layout_width="@dimen/width_ct"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart_ct"
+            android:hint="@string/message"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--:: Sending button ::-->
+        <ImageButton
+            android:id="@+id/send_chat_btn"
+            android:layout_width="@dimen/width_height_scb"
+            android:layout_height="@dimen/width_height_scb"
+            android:adjustViewBounds="true"
+            android:background="@drawable/shape"
+            android:src="@drawable/send_message_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chat_text"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--:: GUIDELINE ::-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.80" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--:: GUIDELINES ::-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+</androidx.constraintlayout.widget.ConstraintLayout>

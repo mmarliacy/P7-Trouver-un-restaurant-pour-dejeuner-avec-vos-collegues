@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.RestaurantActivity">
+
+    <!--:: Restaurant picture ::-->
+    <ImageView
+        android:id="@+id/restaurant_form_picture"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_rfp"
+        android:contentDescription="@string/restaurant_form_picture"
+        android:scaleType="fitXY"
+        android:src="@drawable/restaurant_picture"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--:: Restaurant reservation ::-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/choiceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop_cfb"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/check_fab_btn"
+        app:fabCustomSize="@dimen/fabCustomSize_cfb"
+        app:layout_constraintBottom_toBottomOf="@+id/presentation_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="@dimen/maxImageSize_cfb"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/check_deactivated" />
+
+    <RelativeLayout
+        android:id="@+id/presentation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_pl"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_form_picture">
+
+        <!--:: Restaurant name ::-->
+        <TextView
+            android:id="@+id/restaurant_form_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart_rfn"
+            android:layout_marginTop="@dimen/marginTop_rfn"
+            android:text="@string/restaurant_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_rfn" />
+
+        <!--:: Rating Bar ::-->
+        <RatingBar
+            android:id="@+id/restaurant_form_rating_bar"
+            style="@style/MyRatingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/restaurant_form_name"
+            android:layout_marginStart="@dimen/marginStart_rfr"
+            android:layout_marginBottom="@dimen/marginBottom_rfr"
+            android:layout_toEndOf="@+id/restaurant_form_name"
+            android:isIndicator="true"
+            android:numStars="1"
+            android:progressTint="@color/yellow"
+            android:rating="1" />
+
+        <!--:: Restaurant type ::-->
+        <TextView
+            android:id="@+id/restaurant_form_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/restaurant_form_name"
+            android:layout_marginStart="@dimen/marginStart_rft"
+            android:layout_marginTop="@dimen/marginTop_rf"
+            android:text="@string/restaurant_type"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_rf" />
+
+
+        <TextView
+            android:id="@+id/dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/restaurant_form_name"
+            android:layout_marginStart="@dimen/marginStart_rf"
+            android:layout_marginTop="@dimen/marginTop_rf"
+            android:layout_toEndOf="@id/restaurant_form_type"
+            android:text="@string/dash"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_rf" />
+
+        <!--:: Restaurant address ::-->
+        <TextView
+            android:id="@+id/restaurant_form_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/restaurant_form_name"
+            android:layout_marginStart="@dimen/marginStart_rf"
+            android:layout_marginTop="@dimen/marginTop_rf"
+            android:layout_toEndOf="@id/dash"
+            android:text="@string/restaurant_address"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_rf" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_bl"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_horizontal2">
+
+        <!--:: "Call" Button ::-->
+        <Button
+            android:id="@+id/call_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:outlineSpotShadowColor="@color/white"
+            android:text="@string/call"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textSize_btn"
+            app:drawableTopCompat="@drawable/phone_icon"
+            tools:ignore="UnusedAttribute" />
+
+        <!--:: "Like" Button ::-->
+        <Button
+            android:id="@+id/like_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:outlineSpotShadowColor="@color/white"
+            android:text="@string/like"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textSize_btn"
+            app:drawableTopCompat="@drawable/star_icon"
+            tools:ignore="UnusedAttribute" />
+
+        <!--:: "Website" Button ::-->
+        <Button
+            android:id="@+id/website_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:outlineSpotShadowColor="@color/white"
+            android:text="@string/website"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textSize_btn"
+            app:drawableTopCompat="@drawable/website_icon"
+            tools:ignore="UnusedAttribute" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_view"
+        android:background="@color/light_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_Layout"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal3" />
+
+    <!--:: Registered workmates List ::-->
+    <ListView
+        android:id="@+id/registered_workmates_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_rwl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        tools:listitem="@layout/item_registered_workmates_restaurant" />
+
+    <!--:: GUIDELINES ::-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.53" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

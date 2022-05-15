@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_ll"
+    android:id="@+id/linearlayout"
+    android:background="@drawable/starter_background_image"
+    android:orientation="vertical">
+
+    <!--:: App Name ::-->
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/marginTop_an"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorMenu"
+        android:textSize="@dimen/textSize_an"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/nav_header_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop_nhp"
+        android:orientation="horizontal">
+
+        <!--:: Profile picture ::-->
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="@dimen/width_height_pp"
+            android:layout_height="@dimen/width_height_pp"
+            android:layout_marginStart="@dimen/marginStart_pp"
+            android:layout_marginBottom="@dimen/marginBottom_pp"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/john_smith_photo" />
+
+        <!--:: Profile name ::-->
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart_pn"
+            android:layout_marginTop="@dimen/marginTop_pn"
+            android:layout_toEndOf="@id/profile_picture"
+            android:text="@string/profile_name"
+            android:textColor="@color/colorMenu"
+            android:textSize="@dimen/textSize_pn"
+            android:textStyle="bold" />
+
+        <!--:: Profile mail ::-->
+        <TextView
+            android:id="@+id/profile_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_name"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/marginStart_pm"
+            android:layout_toEndOf="@id/profile_picture"
+            android:text="@string/profile_mail"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="@color/colorMenu"
+            android:textSize="@dimen/textSize_pm" />
+    </RelativeLayout>
+</LinearLayout>

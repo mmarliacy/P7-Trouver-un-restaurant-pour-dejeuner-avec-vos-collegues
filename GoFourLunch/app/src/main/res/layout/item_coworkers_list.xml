@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/parentRelative">
+
+    <!--:: Coworker profile picture ::-->
+    <ImageView
+        android:id="@+id/coworker_picture_item"
+        android:layout_width="@dimen/width_height_cpi"
+        android:layout_height="@dimen/width_height_cpi"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/margin_cpi"
+        android:contentDescription="@string/coworker_profile_picture"
+        android:src="@drawable/sacha_coworker_picture" />
+
+    <!--:: A coworker is eating somewhere... ::-->
+    <TextView
+        android:id="@+id/coworker_is_eating"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/coworker_picture_item"
+        android:layout_marginTop="@dimen/marginTop_cie"
+        android:text="@string/a_coworker_eating_somewhere"
+        android:textColor="@color/black" />
+</RelativeLayout>
