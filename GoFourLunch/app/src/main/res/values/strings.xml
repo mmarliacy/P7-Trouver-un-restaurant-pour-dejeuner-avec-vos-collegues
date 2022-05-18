@@ -84,8 +84,8 @@
     <string name="title_home" translatable="false">Home</string>
     <string name="title_dashboard" translatable="false">Dashboard</string>
     <string name="title_notifications" translatable="false">Notifications</string>
-    <string name="user_is_joining">\" is joining\"</string>
-    <string name="user_is_eating">\" is eating in \"</string>
+    <string name="user_is_joining">\ is joining \ </string>
+    <string name="user_is_eating">\ is eating in \ </string>
     <string name="none_happened">Nothing happened</string>
     <string name="Meet_your_coworkers_at">\"Meet your coworkers at \"</string>
     <string name="with">\" with \"</string>

@@ -52,6 +52,7 @@ android {
         implementation 'androidx.navigation:navigation-fragment:2.4.2'
         implementation 'androidx.navigation:navigation-ui:2.4.2'
 
+
         // -------------------------:: TESTS ::---------------------------
         testImplementation 'junit:junit:4.13.2'
         testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
@@ -73,11 +74,11 @@ android {
 
         // -----------------------:: Firebase UI ::-----------------------
         implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
-        implementation 'com.google.firebase:firebase-core:21.0.0'
 
         // -----------------------:: Cloud Firestore ::-----------------------
+        implementation 'com.google.firebase:firebase-auth:21.0.4'
+        implementation 'com.google.firebase:firebase-firestore:24.1.2'
         implementation 'com.firebaseui:firebase-ui-firestore:8.0.1'
-        implementation 'com.google.firebase:firebase-auth:21.0.3'
 
         // ------------------------:: FACEBOOK LOGIN ::------------------------
         implementation 'com.facebook.android:facebook-android-sdk:13.2.0'

@@ -201,7 +201,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             double placeLatitude = itemRestaurant.getGeometry().getLocation().getLat();
             double placeLongitude = itemRestaurant.getGeometry().getLocation().getLng();
             float[] results = new float[15];
-            Location.distanceBetween(MapFragment.latLngLatitude, MapFragment.latLngLongitude, placeLatitude, placeLongitude, results);
+            Location.distanceBetween(MapFragment.lastKnownLocation.getLatitude(), MapFragment.lastKnownLocation.getLongitude(), placeLatitude, placeLongitude, results);
             float f = results[0];
             int distance = (int) f;
             distanceFromRestaurant.setText("" + distance +" m");

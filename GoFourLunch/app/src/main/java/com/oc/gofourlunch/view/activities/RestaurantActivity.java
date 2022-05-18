@@ -33,6 +33,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -82,7 +83,6 @@ public class RestaurantActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private Drawable noImageFound;
     private PhotoMetadata placePhoto;
-    PlacesModel restaurantModel;
     private User user;
     public static List<User> usersById = new ArrayList<>();
     private final Set<String> usersName = new HashSet<>();
@@ -95,7 +95,7 @@ public class RestaurantActivity extends AppCompatActivity {
     public String mail;
 
     //-- ::> Save user's choice about restaurant, like button, and register list of users
-    public SharedPreferences lunchBtnSharesPref;
+    public static SharedPreferences lunchBtnSharesPref;
     public SharedPreferences likeBtnSharesPref;
     public static SharedPreferences subscribedUsersPref;
     SharedPreferences.Editor fEditor;
@@ -120,7 +120,7 @@ public class RestaurantActivity extends AppCompatActivity {
         //-- ::> Declare views
         declareViews();
         //-- ::> Set data.
-        setPlaceData(restaurantModel);
+        setPlaceData();
     }
 
     //-----------
@@ -139,10 +139,10 @@ public class RestaurantActivity extends AppCompatActivity {
     // GET PLACE DATA BY PARCELABLE IMPLEMENTATION
     // (RESTAURANT/ANY PLACE)
     //---------------------------------------------
-    private void setPlaceData(PlacesModel pRestaurantModel) {
+    private void setPlaceData() {
         if (getIntent().hasExtra("restaurant info")) {
             //-- ::> Get extras data
-            pRestaurantModel = getIntent().getParcelableExtra("restaurant info");
+            PlacesModel pRestaurantModel = getIntent().getParcelableExtra("restaurant info");
             //-- ::> Bound views
             boundViews(pRestaurantModel);
             //-- ::> By Shares Pref store in phone, get user's choice about restaurant
@@ -176,7 +176,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 Glide.with(this).load(noImageFound).into(restaurantPicture);
             }
             //-- ::> Handle click button, and save the choice in Shared Preferences file
-            whenUserClickedOnChoiceBtn(pPlace.getId(), pPlace.getName(), pPlace.getAddress(), pPlace.getTypes().get(0).toString());
+            whenUserClickedOnChoiceBtn(pPlace.getId(), pPlace.getName(), pPlace.getAddress(), Objects.requireNonNull(pPlace.getTypes()).get(0).toString());
             //-- ::> Go on Firestore and get all users that have same place id as the selected one
             getListOfSubscribedUsers(pPlace.getId());
             //-- ::> Configure buttons on Restaurant Activity, Call, Like, Website

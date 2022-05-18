@@ -50,13 +50,13 @@
     ---** TextView **---
     Id --> restaurant_form_name
     <dimen name="marginStart_rfn">10dip</dimen>
-    <dimen name="marginTop_rfn">10dip</dimen>
+    <dimen name="marginTop_rfn">25dip</dimen>
     <dimen name="textSize_rfn">20sp</dimen>
     ...........................................
     Id --> restaurant_form_type, dash, restaurant_form_address
     <dimen name="marginStart_rft">10dip</dimen>
     <dimen name="marginStart_rf">5dip</dimen>
-    <dimen name="marginTop_rf">5dip</dimen>
+    <dimen name="marginTop_rf">3dip</dimen>
     <dimen name="textSize_rf">15sp</dimen>
 
     ---** Rating Bar **---
@@ -205,8 +205,8 @@
     <dimen name="textSize_r_item">13sp</dimen>
     .........................................
     Id --> distance_from_restaurant
-    <dimen name="marginTop_dfr">10dip</dimen>
-    <dimen name="marginEnd_dfr">15dip</dimen>
+    <dimen name="marginTop_dfr">30dip</dimen>
+    <dimen name="marginEnd_dfr">10dip</dimen>
     <dimen name="textSize_dfr">14sp</dimen>
     .........................................
     Id --> counted_coworkers
