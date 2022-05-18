@@ -94,4 +94,8 @@
     <string name="Notifications_enabled">Notifications enabled</string>
     <string name="Choose_a_restaurant_first">Choose a restaurant first</string>
     <string name="You_logged_out">You logged out</string>
+    <string name="no_restaurant_choice_set">didn\'t choose a restaurant yet</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="here">You\'re here</string>
+    <string name="available_workmates">Available Workmates</string>
 </resources>

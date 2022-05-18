@@ -5,7 +5,6 @@ import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -50,6 +49,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
@@ -61,15 +61,15 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.oc.gofourlunch.model.GooglePlaces.GooglePlacesModel;
-import com.oc.gofourlunch.model.GooglePlaces.PhotoModel;
-import com.oc.gofourlunch.model.GooglePlaces.PlacesModel;
 import com.oc.gofourlunch.R;
-import com.oc.gofourlunch.databinding.FragmentMapBinding;
-import com.oc.gofourlunch.view.activities.RestaurantActivity;
 import com.oc.gofourlunch.controller.adapter.RestaurantListAdapter;
 import com.oc.gofourlunch.controller.utils.WebService.RetrofitClient;
 import com.oc.gofourlunch.controller.utils.WebService.RetrofitService;
+import com.oc.gofourlunch.databinding.FragmentMapBinding;
+import com.oc.gofourlunch.model.GooglePlaces.GooglePlacesModel;
+import com.oc.gofourlunch.model.GooglePlaces.PhotoModel;
+import com.oc.gofourlunch.model.GooglePlaces.PlacesModel;
+import com.oc.gofourlunch.view.activities.RestaurantActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -82,12 +82,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapFragment extends Fragment implements GoogleMap.OnInfoWindowClickListener{
 
     FragmentMapBinding binding;
     private String api_key;
     //--:: Map default parameters ::--
-    GoogleMap map;
+    SupportMapFragment supportMapFragment;
     LatLng defaultLocation = new LatLng(48.707795, 2.440960);
     private static final int DEFAULT_ZOOM = 18;
     public static double latLngLatitude;
@@ -98,7 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     int[] grantResults;
     private final String TAG = "Alert";
     private boolean locationPermissionGranted;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 44;
 
     //--:: The entry point to the Fused Location Provider::--
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -134,6 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     Bitmap bitmap;
     Bitmap photo;
     PhotoMetadata placePhoto;
+    GoogleMap map;
 
 
     //------------------------
@@ -147,7 +148,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         //--:: Set support Toolbar ::--
         toolbar = requireActivity().findViewById(R.id.toolbar);
-        ((AppCompatActivity)requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
+        //--:: Get map API key ::--
         try {
             ApplicationInfo varInfo_key = getActivity().getPackageManager().getApplicationInfo(getActivity().getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
             api_key = varInfo_key.metaData.getString("com.google.android.geo.API_KEY");
@@ -155,79 +158,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             pE.printStackTrace();
         }
 
-        // Construct a PlacesClient
+        //--:: Initialize a PlacesClient Object ::--
         Places.initialize(requireContext(), api_key);
         placesClient = Places.createClient(requireActivity());
 
-        // Construct a FusedLocationProviderClient.
+        //--:: Initialize a FusedLocationProviderClient Object ::--
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+        setHasOptionsMenu(true);
+        //--:: Request location permission, so that we can get the location of the device ::--
+        if (ActivityCompat.checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(requireContext(), R.string.permission_granted, Toast.LENGTH_LONG).show();
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            permissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+
+        }
         //--:: Initializing Retrofit for given fragment ::--
         retrofitService = RetrofitClient.getRetrofitClient().create(RetrofitService.class);
 
         //--:: Initializing support Map Fragment & Sync Map ::--
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager()
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.google_maps_fragment);
         assert supportMapFragment != null;
-        supportMapFragment.getMapAsync(this);
         binding = FragmentMapBinding.inflate(inflater, container, false);
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (map != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, map.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation);
-        }
-        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userLocationBtn = requireView().findViewById(R.id.fab_my_location);
-        //--:: Connect button to user location procedure ::--
-        userLocationBtn.setOnClickListener(v -> getLocationPermission());
+        //--:: Configure button to center camera on user location::--
+        userLocationBtn.setOnClickListener(v -> getDeviceLocation());
     }
-
 
     //------------------------
     // INITIALIZING PLACES API
     //------------------------
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-        // Retrieve location and camera position from saved instance state.
-        if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            //CameraPosition cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-        }
-    }
-
-    //------------------
-    // CONFIGURING MAP
-    //------------------
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        map = googleMap;
-        map.addMarker(new MarkerOptions()
-                .title(getString(R.string.default_info_title))
-                .position(defaultLocation).title("France"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                defaultLocation, 30));
-        // Enable the zoom controls for the map
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.setOnInfoWindowClickListener(this);
-    }
 
     //-----------------------------------
     // AUTOCOMPLETE : GETTING PREDICTIONS
     //-----------------------------------
 
-    //--:: MENU
+    //--:: 1 -- Create search icon by implemented a menu ::-->
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         requireActivity().getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -235,18 +215,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    //--:: 2 -- Connect search icon to "getting places procedure" ::-->
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int search_id = R.id.search;
         if (item.getItemId() == search_id) {
-            acSetUpListener();
+            SearchBarViewListener();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void acSetUpListener() {
-        // Set the fields to specify which types of place data to
-        // return after the user has made a selection.
+    //--:: 3 -- Handling click on search menu item and initialize intent for getting predictions ::-->
+    private void SearchBarViewListener() {
+        //--:: Set the fields to specify which types of place data to return after the user has made a selection ::--
         List<Place.Field> fields =
                 Arrays.asList(
                         Place.Field.ID,
@@ -256,11 +237,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         Place.Field.TYPES,
                         Place.Field.PHOTO_METADATAS,
                         Place.Field.RATING);
-        // Start the autocomplete intent.
+        //--:: Start the autocomplete intent ::--
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(requireActivity());
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
+    //--:: 4 -- Get place from intent, and define a marker to locate the place position ::-->
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
@@ -270,9 +252,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
                 map.clear();
                 map.addMarker(addNearMarker(place));
-
                 //The user can click on Marker to go on Restaurant activity
-
                 map.moveCamera(CameraUpdateFactory.newLatLng(Objects.requireNonNull(place.getLatLng())));
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
@@ -301,95 +281,68 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .icon(getCustomIcon());
         }
         assert nearMarkerOptions != null;
-        Objects.requireNonNull(map.addMarker(nearMarkerOptions)).setTag(place);
-        map.setInfoWindowAdapter(infoWindowAdapter);
+       Objects.requireNonNull(map.addMarker(nearMarkerOptions)).setTag(place);
+       map.setInfoWindowAdapter(infoWindowAdapter);
         return nearMarkerOptions;
     }
 
+    //-------------------------------------------
+    // CONFIGURING MAP WHEN GETTING DEVICE LOCATION
+    //-------------------------------------------
+
+    //--:: Gets the current location of the device, and positions the map's camera ::--
+    private void getDeviceLocation() {
+        @SuppressLint("MissingPermission")
+        Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+        locationResult.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(@NonNull GoogleMap pGoogleMap) {
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions marker =
+                                    new MarkerOptions().
+                                    position(latLng).
+                                    title(String.valueOf(R.string.here)).
+                                    snippet(String.valueOf(R.string.here));
+                            pGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, pGoogleMap.getMinZoomLevel()));
+                            pGoogleMap.addMarker(marker);
+                            // Enable the zoom controls for the map
+                            pGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+                            pGoogleMap.setOnInfoWindowClickListener(MapFragment.this);
+                            getPlaces(location, pGoogleMap);
+                            map = pGoogleMap;
+                        }
+                    });
+
+                }
+            }
+        });
+    }
     //-----------------------------------
     // GET ACCESS TO USER DEVICE LOCATION
     //-----------------------------------
-
-    //--:: Request location permission, so that we can get the location of the device ::--
-    private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true;
-            getDeviceLocation();
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
-            Toast.makeText(requireContext(), "Permission granted", Toast.LENGTH_LONG).show();
-        }
-    }
-
     //--:: Handles the result of the request for location permissions ::--
     ActivityResultLauncher<String> permissionResult = registerForActivityResult(
             new ActivityResultContracts.RequestPermission(),
             new ActivityResultCallback<Boolean>() {
                 @Override
                 public void onActivityResult(Boolean result) {
-                    locationPermissionGranted = false;
-                    if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {  // If request is cancelled, the result arrays are empty.
-                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                            locationPermissionGranted = true;
-                            permissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                            getDeviceLocation();
-                        }
+                    if (result){
+                        getDeviceLocation();
+                        updateLocationUI();
                     }
-                    updateLocationUI();
                 }
+
             });
 
-    //--:: Gets the current location of the device, and positions the map's camera ::--
-    private void getDeviceLocation() {
-        try {
-            if (locationPermissionGranted) {
-                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        //--:: Set the map's camera position to the current location of the device ::--
-                        lastKnownLocation = task.getResult();
-                        if (lastKnownLocation != null) {
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            map.getUiSettings().setMyLocationButtonEnabled(true);
-                            latLngLatitude = lastKnownLocation.getLatitude();
-                            latLngLongitude = lastKnownLocation.getLongitude();
-                            moveCameraToLocation(lastKnownLocation);
-                            getPlaces(lastKnownLocation);
-                        }
-                    } else {
-                        Log.d(TAG, "Current location is null. Using defaults.");
-                        Log.e(TAG, "Exception: %s", task.getException());
-                        map.moveCamera(CameraUpdateFactory
-                                .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-                        map.getUiSettings().setMyLocationButtonEnabled(false);
-                    }
-                });
-            }
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage(), e);
-        }
-    }
-
-    private void moveCameraToLocation(Location location) {
-        markerOptions = new MarkerOptions()
-                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                .title("Current Location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-        map.addMarker(markerOptions);
-    }
     //------------------------------
     // GET PLACES : NEAR BY PLACES
     //------------------------------
 
-    private void getPlaces(Location location) {
+    private void getPlaces(Location location, GoogleMap map) {
         if (locationPermissionGranted) {
 
             String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
@@ -412,7 +365,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                                 map.clear();
                                 for (int i = 0; i < response.body().getGooglePlaceList().size(); i++) {
                                     googlePlacesList.add(responsesList.get(i));
-                                    map.addMarker(addMarker(responsesList.get(i)));
+                                    map.addMarker(addMarker(responsesList.get(i), map));
                                     selectedRestaurant = responsesList.get(i);
                                     fetchImageAndData(i, responsesList.get(i));
                                 }
@@ -436,6 +389,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             });
         }
     }
+
     private void fetchImageAndData(int i, PlacesModel placesModel) {
         String placeId = responsesList.get(i).getPlaceId();
         // Specify fields. Requests for photos must always have the PHOTO_META_DATA field.
@@ -473,7 +427,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         });
     }
 
-    private MarkerOptions addMarker(PlacesModel placesModel) {
+    private MarkerOptions addMarker(PlacesModel placesModel, GoogleMap map) {
         double newLat = placesModel.getGeometry().getLocation().getLat();
         double newLng = placesModel.getGeometry().getLocation().getLng();
         LatLng latLng = new LatLng(newLat, newLng);
@@ -486,7 +440,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .icon(getCustomIcon());
         }
         assert nearMarkerOptions != null;
-        Objects.requireNonNull(map.addMarker(nearMarkerOptions)).setTag(placesModel);
+       map.addMarker(nearMarkerOptions).setTag(placesModel);
 
         map.setInfoWindowAdapter(infoWindowAdapter);
         return nearMarkerOptions;
@@ -509,6 +463,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     // UPDATE MAP'S UI SETTINGS
     //----------------------------
     private void updateLocationUI() {
+        /*
         if (map == null) {
             return;
         }
@@ -523,16 +478,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 map.setMyLocationEnabled(false);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
-                getLocationPermission();
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
+         */
     }
 
-    //----------------------------
-    // INFO WINDOW CLICK
-    //----------------------------
+    //---------------------------
+    // MAP MARKER : DISPLAY INFO
+    //---------------------------
 
     GoogleMap.InfoWindowAdapter infoWindowAdapter = new GoogleMap.InfoWindowAdapter() {
         @NonNull
@@ -554,6 +509,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     };
 
+    //-----------------------------
+    // MAP MARKER : HANDLING CLICK
+    //-----------------------------
+
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
         if (marker.getTag() instanceof PlacesModel) {
@@ -574,27 +533,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 }
             }
         } else if (marker.getTag() instanceof Place) {
-                if (marker.getTag() != null) {
-                    place = (Place) marker.getTag();
-                    // Put condition, and insert image in case of placePhoto == null
-                    if (place.getPhotoMetadatas() != null) {
-                        placePhoto = Objects.requireNonNull(place.getPhotoMetadatas()).get(0);
-                        Log.i("STEP : ", "Place selected has a photo");
-                        Intent intent = new Intent(requireContext(), RestaurantActivity.class);
-                        intent.putExtra("place info", place);
-                        intent.putExtra("place image", placePhoto);
-                        startActivity(intent);
-                    } else {
-                        Log.i("STEP : ", "Place selected has no image found");
-                        Toast.makeText(requireContext(), "Restaurant has been selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(requireContext(), RestaurantActivity.class);
-                        intent.putExtra("place info", place);
-                        Log.e("STEP : ", "Image : Not Found has been transferred");
-                        startActivity(intent);
-                    }
+            if (marker.getTag() != null) {
+                place = (Place) marker.getTag();
+                // Put condition, and insert image in case of placePhoto == null
+                if (place.getPhotoMetadatas() != null) {
+                    placePhoto = Objects.requireNonNull(place.getPhotoMetadatas()).get(0);
+                    Log.i("STEP : ", "Place selected has a photo");
+                    Intent intent = new Intent(requireContext(), RestaurantActivity.class);
+                    intent.putExtra("place info", place);
+                    intent.putExtra("place image", placePhoto);
+                    startActivity(intent);
+                } else {
+                    Log.i("STEP : ", "Place selected has no image found");
+                    Toast.makeText(requireContext(), "Restaurant has been selected", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(requireContext(), RestaurantActivity.class);
+                    intent.putExtra("place info", place);
+                    Log.e("STEP : ", "Image : Not Found has been transferred");
+                    startActivity(intent);
                 }
             }
         }
+    }
 }
 
 

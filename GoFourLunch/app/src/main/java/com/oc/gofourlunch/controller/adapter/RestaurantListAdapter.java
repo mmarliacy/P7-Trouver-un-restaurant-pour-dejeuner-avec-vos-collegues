@@ -135,7 +135,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             countedCoworkers = itemView.findViewById(R.id.counted_coworkers);
             ratingBar = itemView.findViewById(R.id.restaurant_rating_bar);
             restaurantPicture = itemView.findViewById(R.id.restaurant_picture);
-
         }
 
         public void bind(PlacesModel itemRestaurant, OpeningHoursModel openings) {
@@ -195,7 +194,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                 }
                 countedCoworkers.setText("" + counted);
             });
-
         }
 
         @SuppressLint("SetTextI18n")
@@ -207,9 +205,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             float f = results[0];
             int distance = (int) f;
             distanceFromRestaurant.setText("" + distance +" m");
-
         }
     }
-
-
 }

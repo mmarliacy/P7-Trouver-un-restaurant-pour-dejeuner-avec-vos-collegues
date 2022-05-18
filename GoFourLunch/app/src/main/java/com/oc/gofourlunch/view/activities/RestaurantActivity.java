@@ -157,7 +157,10 @@ public class RestaurantActivity extends AppCompatActivity {
                 Glide.with(this).load(noImageFound).into(restaurantPicture);
             }
             //-- ::> Handle click button, and save the choice in Shared Preferences file
-            whenUserClickedOnChoiceBtn(pRestaurantModel.getPlaceId(), pRestaurantModel.getName(), pRestaurantModel.getVicinity());
+            whenUserClickedOnChoiceBtn( pRestaurantModel.getPlaceId(),
+                                        pRestaurantModel.getName(),
+                                        pRestaurantModel.getVicinity(),
+                                        pRestaurantModel.getTypes().get(0));
             //-- ::> Go on Firestore and get all users that have same place id as the selected one
             getListOfSubscribedUsers(pRestaurantModel.getPlaceId());
             //-- ::> Configure buttons on Restaurant Activity, Call, Like, Website
@@ -173,7 +176,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 Glide.with(this).load(noImageFound).into(restaurantPicture);
             }
             //-- ::> Handle click button, and save the choice in Shared Preferences file
-            whenUserClickedOnChoiceBtn(pPlace.getId(), pPlace.getName(), pPlace.getAddress());
+            whenUserClickedOnChoiceBtn(pPlace.getId(), pPlace.getName(), pPlace.getAddress(), pPlace.getTypes().get(0).toString());
             //-- ::> Go on Firestore and get all users that have same place id as the selected one
             getListOfSubscribedUsers(pPlace.getId());
             //-- ::> Configure buttons on Restaurant Activity, Call, Like, Website
@@ -251,16 +254,16 @@ public class RestaurantActivity extends AppCompatActivity {
     //--------------------------------
     // USER CHOOSE AND SAVE RESTAURANT
     //--------------------------------
-    private void whenUserClickedOnChoiceBtn(String placeId, String name, String address) {
+    private void whenUserClickedOnChoiceBtn(String placeId, String name, String address, String placeType) {
         choiceBtn.setOnClickListener(v -> {
             if (lunchBtnSharesPref.getString("id", DEFAULT).equals(DEFAULT)) {
-                saveUserChoice(placeId, name, address);
+                saveUserChoice(placeId, name, address, placeType);
                 choiceBtn.setColorFilter(getResources().getColor(R.color.green_light));
             } else if (lunchBtnSharesPref.getString("id", DEFAULT).equals(placeId)) {
                 choiceBtn.setColorFilter(getResources().getColor(R.color.green_light));
                 Toast.makeText(this, "you choose " + name, Toast.LENGTH_LONG).show();
             } else if (!placeId.equals(lunchBtnSharesPref.getString("id", DEFAULT))) {
-                saveUserChoice(placeId, name, address);
+                saveUserChoice(placeId, name, address, placeType);
                 choiceBtn.setColorFilter(getResources().getColor(R.color.red));
                 Toast.makeText(this, "you already choose " + lunchBtnSharesPref.getString("name", DEFAULT), Toast.LENGTH_LONG).show();
             }
@@ -268,7 +271,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     //-- :: Save user's choice by using Shared Preferences :: --
-    private void saveUserChoice(String placeId, String placeName, String placeAddress) {
+    private void saveUserChoice(String placeId, String placeName, String placeAddress, String placeType) {
         lunchBtnSharesPref = getSharedPreferences("lunchPref", MODE_PRIVATE);
         fEditor = lunchBtnSharesPref.edit();
         fEditor.putBoolean(placeId, true);
@@ -276,7 +279,7 @@ public class RestaurantActivity extends AppCompatActivity {
         fEditor.putString("name", placeName);
         fEditor.putString("address", placeAddress);
         fEditor.commit();
-        fetchRestaurantWithCurrentUser(placeId);
+        fetchRestaurantWithCurrentUserForFirebase(placeId, placeName, placeType);
 
     }
 
@@ -304,7 +307,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     //-- :: Get an instance of Firestore to fetch user's choice :: --
-    private void fetchRestaurantWithCurrentUser(String pPlaceId) {
+    private void fetchRestaurantWithCurrentUserForFirebase(String pPlaceId, String placeName, String placeType ) {
         database = FirebaseFirestore.getInstance();
         CollectionReference userBookReference = database.collection("Users");
         userBookReference.get().addOnSuccessListener(pQueryDocumentSnapshots -> {
@@ -322,6 +325,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     assert currentUser != null;
                     if (user.getName().equals(currentUser.getDisplayName())) {
                         user.setRestaurantId(pPlaceId);
+                        user.setRestaurantName(placeName);
+                        user.setRestaurantType(placeType);
                         userBookReference.document(user.getName()).set(user, SetOptions.merge());
                     }
                 }

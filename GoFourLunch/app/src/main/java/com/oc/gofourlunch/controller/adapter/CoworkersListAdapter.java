@@ -32,10 +32,9 @@ public class CoworkersListAdapter extends BaseAdapter {
     private List<PlacesModel> placesList;
 
 
-    public CoworkersListAdapter(Context context, List<User> users, List<PlacesModel> pPlacesList) {
+    public CoworkersListAdapter(Context context, List<User> users) {
         this.fContext = context;
         this.coworkersEatingList = users;
-        this.placesList = pPlacesList;
         this.fLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -73,9 +72,14 @@ public class CoworkersListAdapter extends BaseAdapter {
 
         TextView nameTv = view.findViewById(R.id.coworker_is_eating);
         ImageView photoIv = view.findViewById(R.id.coworker_picture_item);
+        if (restaurantName != null){
+            nameTv.setText(name + fContext.getString(R.string.user_is_eating)  + restaurantType +" " +"(" + restaurantName + ")");
+            Glide.with(fContext).load(photoURL).into(photoIv);
+        } else {
+            nameTv.setText(name + " " + fContext.getString(R.string.no_restaurant_choice_set));
+            Glide.with(fContext).load(R.drawable.no_image_found).into(photoIv);
+        }
 
-        nameTv.setText(name + fContext.getString(R.string.user_is_eating)  + restaurantType +" " +"(" + restaurantName + ")");
-        Glide.with(fContext).load(photoURL).into(photoIv);
         return view;
     }
 

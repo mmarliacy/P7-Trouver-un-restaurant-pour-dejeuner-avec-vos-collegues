@@ -36,4 +36,8 @@
     <string name="Notifications_enabled">"Notifications activées "</string>
     <string name="Choose_a_restaurant_first">Choisi d\'abord un restaurant</string>
     <string name="You_logged_out">Tu t\'es déconnecté</string>
+    <string name="no_restaurant_choice_set">n\'a pas encore choisi de restaurant</string>
+    <string name="permission_granted">Permission accordée</string>
+    <string name="here">Vous êtes ici</string>
+    <string name="available_workmates">Collègues disponibles</string>
 </resources>

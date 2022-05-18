@@ -72,6 +72,7 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
 
     //--:: Navigation View ::--
     ActionBarDrawerToggle varToggle;
+    Toolbar varToolbar;
 
     //------------
     // FOR DESIGN
@@ -126,6 +127,7 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
 
                     case (R.id.workmates):
                      replaceFragment(new CoworkersListFragment());
+                        varToolbar.setTitle(R.string.available_workmates);
                         break;
                 }
                 return true;
@@ -145,7 +147,7 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
     //--:: 1 -- Establish Navigation Drawer's behaviour ::-->
     private void setUpNavigationDrawer() {
         //--::> Navigation Drawer && Toolbar
-        Toolbar varToolbar = binding.toolbar;
+        varToolbar = binding.toolbar;
         DrawerLayout varDrawerLayout = binding.drawerLayout;
         setSupportActionBar(varToolbar); //--::> Set Up Toolbar
         //--::> Define new Toggle for Drawer Layout and connect it to current Activity
