@@ -1,13 +1,7 @@
 package com.oc.gofourlunch.view.activities;
 
-
-import static com.oc.gofourlunch.view.activities.RestaurantActivity.subscribedUsersPref;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +22,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,17 +31,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.oc.gofourlunch.R;
 import com.oc.gofourlunch.databinding.ActivityMainBinding;
 import com.oc.gofourlunch.model.User.User;
-import com.oc.gofourlunch.R;
-
 import com.oc.gofourlunch.view.fragmentCoworkersList.CoworkersListFragment;
 import com.oc.gofourlunch.view.fragmentMap.MapFragment;
 import com.oc.gofourlunch.view.fragmentRestaurantList.RestaurantListFragment;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,13 +52,6 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
     private FirebaseUser currentUser;
     private Uri photoUser;
     private User user;
-
-    //--:: Get data for daily notification ::--
-    public static SharedPreferences fSharedPreferences;
-    public static String name;
-    public static String address;
-    public static String id;
-    public static Set usersList;
 
     //--:: Navigation View ::--
     ActionBarDrawerToggle varToggle;
@@ -98,13 +81,11 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
         setUpNavigationDrawer();
         setNavigationView();
         checkIfUserIsInDb();
-        retrieveInfoForNotification();
-
     }
 
-    //----------------------
+    //------------------------
     // NAVIGATION BOTTOM VIEW
-    //----------------------
+    //------------------------
     //--:: 1 -- Connecting bottom Navigation View to fragment views ::-->
     private void setUpBottomNavigation() {
         BottomNavigationView bottomNavigationView = binding.bottomNavigation;
@@ -119,10 +100,12 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
                 switch (item.getItemId()) {
                     case (R.id.map_view):
                        replaceFragment(new MapFragment());
+                        varToolbar.setTitle(R.string.app_toolbar_title);
                         break;
 
                     case (R.id.list_view):
                        replaceFragment(new RestaurantListFragment());
+                        varToolbar.setTitle(R.string.app_toolbar_title);
                         break;
 
                     case (R.id.workmates):
@@ -233,12 +216,9 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
                 } else {
                     Log.d(TAG, "Failed with: ", task.getException());
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception pE) {
-                    Log.i("FirestoreError",pE.getMessage());
-                    Toast.makeText(MainActivity.this, pE.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            }).addOnFailureListener(pE -> {
+                Log.i("FirestoreError",pE.getMessage());
+                Toast.makeText(MainActivity.this, pE.getMessage(), Toast.LENGTH_SHORT).show();
             });
 
     }
@@ -297,21 +277,6 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
                 show());
     }
 
-    //---------------
-    // NOTIFICATIONS
-    //---------------
-    //-- :: Data stores in Restaurant Activity,  to retrieve and send to user in daily notification  :: -->
-    private void retrieveInfoForNotification() {
-        Set<String> defSet = new HashSet<>();
-        fSharedPreferences = getSharedPreferences("lunchPref", MODE_PRIVATE);
-        subscribedUsersPref = getSharedPreferences("usersList", MODE_PRIVATE);
-        name = fSharedPreferences.getString("name", "no restaurant name");
-        address = fSharedPreferences.getString("address", "no restaurant address");
-        id = fSharedPreferences.getString("id", "no Id");
-        usersList = subscribedUsersPref.getStringSet("list", defSet);
-    }
-
-
     //---------------------------
     // LOG OUT & ON BACK PRESSED
     //---------------------------
@@ -332,15 +297,4 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
             getSupportFragmentManager().popBackStack();
         }
     }
-
-    /*
-    -----------------
-     USER VIEW MODEL
-    -----------------
-    --:: 1 -- Init View Model and get users list ::-->
-     private void initViewModel() {
-        UserViewModel varUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        varUserViewModel.getAllUsers();
-    }
-    */
 }

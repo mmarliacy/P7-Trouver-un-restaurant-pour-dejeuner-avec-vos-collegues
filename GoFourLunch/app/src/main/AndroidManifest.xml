@@ -17,7 +17,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Go4Lunch">
+        android:theme="@style/Theme.Go4Lunch"
+        android:fullBackupContent="@xml/backup_descriptor">
 
         <!-- :: Login Activity :: -->
         <activity
@@ -65,8 +66,6 @@
             android:value="@integer/google_play_services_version" />
 
         <receiver
-            android:name="com.oc.gofourlunch.controller.notifications.ReminderBroadcast"
-            android:enabled="true"
-            android:process=":remote"/>
+            android:name="com.oc.gofourlunch.controller.notifications.ReminderBroadcast" />
     </application>
 </manifest>

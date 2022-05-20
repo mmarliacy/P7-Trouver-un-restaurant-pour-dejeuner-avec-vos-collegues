@@ -57,7 +57,7 @@
     <string name="my_location_btn" translatable="false">my_location_btn</string>
 
     <!--:: Switch Buttons ::-->
-    <string name="notifications_state">Notifications disabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
     <string name="chat_state" translatable="false">Chat disabled</string>
 
 
@@ -98,4 +98,7 @@
     <string name="permission_granted">Permission granted</string>
     <string name="here">You\'re here</string>
     <string name="available_workmates">Available Workmates</string>
+    <string name="Youre_eating_at">You\'re eating at \ </string>
+    <string name="Youve_already_choose">You have already choose \ </string>
+    <string name="with_notifications">\" , with \"</string>
 </resources>

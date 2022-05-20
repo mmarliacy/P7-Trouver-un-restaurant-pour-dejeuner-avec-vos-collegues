@@ -90,6 +90,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     //-------------
     FloatingActionButton userLocationBtn;
     Toolbar toolbar;
+    //--:: Map default parameters ::--
+    SupportMapFragment supportMapFragment;
 
     //----------
     // FOR DATA
@@ -98,9 +100,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private final String TAG = "Alert";
     private String api_key;
     GoogleMap map;
-
-    //--:: Map default parameters ::--
-    SupportMapFragment supportMapFragment;
 
     //--:: Last-know location retrieved by the Fused Location Provider ::--
     public static Location lastKnownLocation;
@@ -127,10 +126,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     Bitmap bitmap;
     PhotoMetadata placePhoto;
 
-
-    //------------------------
-    // DISPLAYING MAP & LAYOUT
-    //------------------------
+    //----------------------------------
+    // ON CREATE VIEW - ON VIEW CREATED
+    //----------------------------------
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
@@ -158,8 +156,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         userLocationBtn = requireView().findViewById(R.id.fab_my_location);
         //--:: Configure button to center camera on user location::--
         userLocationBtn.setOnClickListener(v -> getDeviceLocation());
+        getRestaurantIdOfCurrentUser();
     }
-
 
     //----------------------------------------------------------
     // ON START - CONFIGURE ALL NEEDED MODULES FOR MAP FRAGMENT
@@ -200,8 +198,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         //--:: Request location permission, so that we can get the location of the device ::--
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             locationPermissionGranted = true;
         }
         //--:: Launch Task Location ::--
@@ -229,6 +226,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             }
         }
     }
+
+
 
     //-----------------
     // CONFIGURING MAP

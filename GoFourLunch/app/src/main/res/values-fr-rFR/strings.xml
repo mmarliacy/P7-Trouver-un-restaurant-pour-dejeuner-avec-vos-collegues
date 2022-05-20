@@ -14,7 +14,7 @@
     <string name="call">APPEL</string>
     <string name="website">SITE WEB</string>
     <string name="like" translatable="false">LIKE</string>
-    <string name="notifications_state" translatable="false">Notifications desactivées</string>
+    <string name="notifications_disabled" translatable="false">Notifications desactivées</string>
     <string name="map_view">Carte</string>
     <string name="list_view">Liste</string>
     <string name="workmates">Collègues</string>
@@ -29,7 +29,7 @@
     <string name="user_is_joining">\ rejoint</string>
     <string name="user_is_eating">\ mange à/au \ </string>
     <string name="none_happened">Rien ne s\'est produit</string>
-    <string name="Meet_your_coworkers_at">Rencontre tes collègues à/au</string>
+    <string name="Meet_your_coworkers_at">Rencontre tes collègues à \ </string>
     <string name="with">avec</string>
     <string name="cancelled_authentication">L\'authentication a été annulé</string>
     <string name="cancelled_authentication_because_of">"L'authentication a été annulé à cause de "</string>
@@ -40,4 +40,7 @@
     <string name="permission_granted">Permission accordée</string>
     <string name="here">Vous êtes ici</string>
     <string name="available_workmates">Collègues disponibles</string>
+    <string name="Youre_eating_at">Tu manges à \ </string>
+    <string name="Youve_already_choose">Tu as déjà choisi \ </string>
+    <string name="with_notifications"> \ , avec \ </string>
 </resources>
