@@ -77,10 +77,15 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        currentUser = getIntent().getParcelableExtra("user");
         setUpBottomNavigation();
         setUpNavigationDrawer();
         setNavigationView();
-        checkIfUserIsInDb();
+        if (currentUser != null){
+            checkIfUserIsInDb();
+        } else {
+            Toast.makeText(this, "No user has been charged from database", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //------------------------
@@ -173,12 +178,16 @@ public class MainActivity extends com.oc.gofourlunch.view.activities.BaseActivit
         TextView userMail = headerView.findViewById(R.id.profile_mail);
         ImageView userPhoto = headerView.findViewById(R.id.profile_picture);
         //--::> Get current User from parcelable intent and bind info to graphics elements
-            currentUser = getIntent().getParcelableExtra("user");
+        if (currentUser != null){
             photoUser = getIntent().getParcelableExtra("userPhoto");
             userName.setText(currentUser.getDisplayName());
             userMail.setText(currentUser.getEmail());
             Glide.with(this).load(photoUser).into(userPhoto);
-
+        } else {
+            userName.setText("User Test");
+            userMail.setText("Mail Test");
+            Glide.with(this).load(R.drawable.no_image_found).into(userPhoto);
+        }
         }
 
     //--:: 3 -- Handle click on Navigation view items and defining their behaviour ::-->

@@ -87,7 +87,7 @@
     <string name="user_is_joining">\ is joining \ </string>
     <string name="user_is_eating">\ is eating in \ </string>
     <string name="none_happened">Nothing happened</string>
-    <string name="Meet_your_coworkers_at">\"Meet your coworkers at \"</string>
+    <string name="Meet_your_coworkers_at">\"Meeting at \"</string>
     <string name="with">\" with \"</string>
     <string name="cancelled_authentication">The authentication has been cancelled</string>
     <string name="cancelled_authentication_because_of">\"The authentication has been cancelled because of, \"</string>

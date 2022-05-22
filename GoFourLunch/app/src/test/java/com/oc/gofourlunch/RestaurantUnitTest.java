@@ -113,7 +113,7 @@ public class RestaurantUnitTest {
         OpeningHoursModel varOpeningHours =mock(OpeningHoursModel.class);
         when(place.getOpeningHours()).thenReturn(varOpeningHours);
         when(varOpeningHours.getOpenNow()).thenReturn(true);
-        assertTrue((boolean) place.getOpeningHours().getOpenNow());
+        assertTrue(place.getOpeningHours().getOpenNow());
     }
 
     @Test

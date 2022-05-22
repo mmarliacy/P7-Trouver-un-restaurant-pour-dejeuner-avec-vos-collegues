@@ -29,7 +29,7 @@
     <string name="user_is_joining">\ rejoint</string>
     <string name="user_is_eating">\ mange à/au \ </string>
     <string name="none_happened">Rien ne s\'est produit</string>
-    <string name="Meet_your_coworkers_at">Rencontre tes collègues à \ </string>
+    <string name="Meet_your_coworkers_at">"Rendez-vous à  "</string>
     <string name="with">avec</string>
     <string name="cancelled_authentication">L\'authentication a été annulé</string>
     <string name="cancelled_authentication_because_of">"L'authentication a été annulé à cause de "</string>

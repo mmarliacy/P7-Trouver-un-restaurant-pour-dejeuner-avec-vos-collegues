@@ -11,6 +11,7 @@ import android.net.Uri;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.facebook.login.Login;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.oc.gofourlunch.R;
 import com.oc.gofourlunch.model.User.User;
+import com.oc.gofourlunch.view.activities.LoginActivity;
 import com.oc.gofourlunch.view.activities.YourLunch;
 
 import java.util.List;
@@ -61,7 +63,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
             long time = System.currentTimeMillis();
 
             //--:: 4 -- Configure pending Intent for handling notifications reception ::-->
-            Intent notificationIntent = new Intent(context, YourLunch.class);
+            Intent notificationIntent = new Intent(context, LoginActivity.class);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             @SuppressLint("UnspecifiedImmutableFlag")
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,

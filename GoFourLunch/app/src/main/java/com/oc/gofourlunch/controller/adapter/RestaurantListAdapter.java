@@ -186,10 +186,13 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                     currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     //-- :: Define each user's attributes according to Firestore database  :: --
                     String restaurantId = user.getRestaurantId();
-                    if (restaurantId != null){
-                        if ((restaurantId).equals(placeId)) {
-                            counted = +moreCoworkers;
-                        }
+                    if (restaurantId != null) {
+                            if ((restaurantId).equals(placeId)) {
+                                counted = counted + 1;
+                                if (user.getName().equals(currentUser.getDisplayName())){
+                                    counted = counted - 1;
+                                }
+                            }
                     }
                 }
                 countedCoworkers.setText("" + counted);

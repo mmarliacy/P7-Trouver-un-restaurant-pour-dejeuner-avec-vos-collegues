@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -80,7 +81,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private Drawable noImageFound;
     private PhotoMetadata placePhoto;
     private User user;
-    public static List<User> usersById = new ArrayList<>();
+    public List<User> usersById = new ArrayList<>();
     private FirebaseFirestore database;
     static PlaceDetailModel detailsPlace;
 
@@ -89,8 +90,7 @@ public class RestaurantActivity extends AppCompatActivity {
     public String restaurantId;
     public String placeName;
     public String mail;
-    public boolean likeRestaurant;
-    public String restaurantLiked;
+    public List<String> restaurantLikedId;
 
     //---------------------------------
     // ON-CREATE : RESTAURANT ACTIVITY
@@ -137,7 +137,7 @@ public class RestaurantActivity extends AppCompatActivity {
             PlacesModel pRestaurantModel = getIntent().getParcelableExtra("restaurant info");
             //--:: Bound views ::--
             boundViews(pRestaurantModel);
-            //--:: By Shares Pref store in phone, get user's choice about restaurant ::--
+            //--:: By getting Firestore data, get user's choice about restaurant ::--
             getLunchChoice(pRestaurantModel.getPlaceId());
 
             //--:: Set image, if it has been sent by intent ::--
@@ -151,16 +151,17 @@ public class RestaurantActivity extends AppCompatActivity {
             }
             //--:: Go on Firestore and get all users that have same place id as the selected one ::--
             getListOfSubscribedUsers(pRestaurantModel.getPlaceId());
-            //--:: Handle click button, and save the choice in Shared Preferences file ::--
+            //--:: Handle click button, and save the choice in on Firestore database ::--
             whenUserClickedOnChoiceBtn(pRestaurantModel.getPlaceId(),
                     pRestaurantModel.getName(), pRestaurantModel.getVicinity(),
                     pRestaurantModel.getTypes().get(0));
 
-            //--:: Configure buttons on Restaurant Activity, Call, Like, Website ::--
+            //--:: Configure buttons on Restaurant Activity, Call,& Website ::--
             configureButtons(pRestaurantModel.getPlaceId());
             //--:: Get like button state on Firestore database ::--
             configureLikeButton(pRestaurantModel.getPlaceId());
             retrieveLikeBtn(pRestaurantModel.getPlaceId());
+
         } else if (getIntent().hasExtra("place info")) {
             Place pPlace = getIntent().getParcelableExtra("place info");
             boundPlaceViews(pPlace);
@@ -169,12 +170,18 @@ public class RestaurantActivity extends AppCompatActivity {
             } else {
                 Glide.with(this).load(noImageFound).into(restaurantPicture);
             }
-            //--:: Handle click button, and save the choice in Shared Preferences file ::--
+            //--:: Handle click button, and save the choice in on Firestore database ::--
             whenUserClickedOnChoiceBtn(pPlace.getId(), pPlace.getName(), pPlace.getAddress(), Objects.requireNonNull(pPlace.getTypes()).get(0).toString());
+            //--:: Go on Firestore and get all users that have same place id as the selected one ::--
+            getListOfSubscribedUsers(pPlace.getId());
             //--:: Configure buttons on Restaurant Activity, Call, Like, Website ::--
             configureButtons(pPlace.getId());
             //--:: Get like button state on Firestore database ::--
+            configureLikeButton(pPlace.getId());
+            //--:: Get like button state on Firestore database ::--
             retrieveLikeBtn(pPlace.getId());
+            //--:: By getting Firestore data, get user's choice about place ::--
+            getLunchChoice(pPlace.getId());
         }
     }
 
@@ -281,10 +288,10 @@ public class RestaurantActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, getString(R.string.Youve_already_choose) + placeName, Toast.LENGTH_LONG).show();
                     choiceBtn.setColorFilter(getResources().getColor(R.color.black));
+                }
             }
-        }
-    });
-}
+        });
+    }
 
     //--:: 3 -- Set color of Lunch button according to data (restaurantId) stores in database  ::-->
     private void getLunchChoice(String placeId) {
@@ -312,6 +319,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void getListOfSubscribedUsers(String pPlaceId) {
         database = FirebaseFirestore.getInstance();
         CollectionReference userBookReference = database.collection("Users");
+        usersById.clear();
         userBookReference.get().addOnSuccessListener(pQueryDocumentSnapshots -> {
             for (QueryDocumentSnapshot varQueryDocumentSnapshot : pQueryDocumentSnapshots) {
                 //-- :: Associate document with object POJO class :: --
@@ -395,10 +403,30 @@ public class RestaurantActivity extends AppCompatActivity {
     //--:: 1 -- Set on click like button listener ::-->
     public void configureLikeButton(String pPlaceId) {
         likeBtn.setOnClickListener(likeBtn -> {
-            saveLikeBtn(pPlaceId);
-            likeBtn.setBackgroundColor(getResources().getColor(R.color.clear_orange_peach));
+        database = FirebaseFirestore.getInstance();
+        CollectionReference userBookReference = database.collection("Users");
+        userBookReference.get().addOnSuccessListener(pQueryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot varQueryDocumentSnapshot : pQueryDocumentSnapshots) {
+                //-- :: Associate document with object POJO class :: --
+                user = varQueryDocumentSnapshot.toObject(User.class);
+                //-- :: Get connected current user :: --
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                //-- :: Define each user's attributes according to Firestore database  :: --
+                assert currentUser != null;
+                if (user.getName().equals(currentUser.getDisplayName())) {
+                    restaurantLikedId = user.getRestaurantLikedId();
+                        if(!restaurantLikedId.contains(pPlaceId)){
+                            saveLikeBtn(pPlaceId);
+                            likeBtn.setBackgroundColor(getResources().getColor(R.color.clear_orange_peach));
+                        } else {
+                            removeLikeBtn(pPlaceId);
+                            likeBtn.setBackgroundColor(getResources().getColor(R.color.white));
+                        }
+                }
+        }
+    });
         });
-    }
+}
 
     //--:: 2 -- Save like btn state in Firestore database  ::-->
     private void saveLikeBtn(String pPlaceId) {
@@ -411,14 +439,28 @@ public class RestaurantActivity extends AppCompatActivity {
                 //-- :: Get connected current user :: --
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 //-- :: Define each user's attributes according to Firestore database  :: --
-                likeRestaurant = user.isLikeRestaurant();
-                restaurantId = user.getRestaurantId();
-                restaurantLiked = user.getRestaurantLiked();
                 assert currentUser != null;
                 if (user.getName().equals(currentUser.getDisplayName())) {
-                    user.setLikeRestaurant(true);
-                    user.setRestaurantLiked(pPlaceId);
-                    userBookReference.document(user.getName()).set(user, SetOptions.merge());
+                    userBookReference.document(user.getName()).update("restaurantLikedId", FieldValue.arrayUnion(pPlaceId));
+                }
+            }
+        });
+    }
+
+    //--:: 2 -- Save like btn state in Firestore database  ::-->
+    private void removeLikeBtn(String pPlaceId) {
+        database = FirebaseFirestore.getInstance();
+        CollectionReference userBookReference = database.collection("Users");
+        userBookReference.get().addOnSuccessListener(pQueryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot varQueryDocumentSnapshot : pQueryDocumentSnapshots) {
+                //-- :: Associate document with object POJO class :: --
+                user = varQueryDocumentSnapshot.toObject(User.class);
+                //-- :: Get connected current user :: --
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                //-- :: Define each user's attributes according to Firestore database  :: --
+                assert currentUser != null;
+                if (user.getName().equals(currentUser.getDisplayName())) {
+                    userBookReference.document(user.getName()).update("restaurantLikedId", FieldValue.arrayRemove(pPlaceId));
                 }
             }
         });
@@ -435,15 +477,11 @@ public class RestaurantActivity extends AppCompatActivity {
                 //-- :: Get connected current user :: --
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 //-- :: Define each user's attributes according to Firestore database  :: --
-                likeRestaurant = user.isLikeRestaurant();
-                restaurantId = user.getRestaurantId();
-                restaurantLiked = user.getRestaurantLiked();
+                restaurantLikedId = user.getRestaurantLikedId();
                 assert currentUser != null;
                 if (user.getName().equals(currentUser.getDisplayName())) {
-                    if (restaurantLiked != null && restaurantLiked.equals(pPlaceId)) {
-                        if (likeRestaurant) {
-                            likeBtn.setBackgroundColor(getResources().getColor(R.color.clear_orange_peach));
-                        }
+                    if (restaurantLikedId != null && restaurantLikedId.contains(pPlaceId)) {
+                        likeBtn.setBackgroundColor(getResources().getColor(R.color.clear_orange_peach));
                     }
                 }
             }

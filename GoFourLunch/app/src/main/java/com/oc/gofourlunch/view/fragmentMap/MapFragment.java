@@ -172,7 +172,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     //--:: 2 -- Initialize Map key and Places Client ::-->
     public void getMapApiKeyAndInitializePlacesClient() {
         try {
-            ApplicationInfo varInfo_key = Objects.requireNonNull(getActivity()).getPackageManager().getApplicationInfo(getActivity().getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            ApplicationInfo varInfo_key = requireActivity().getPackageManager().getApplicationInfo(requireActivity().getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
             api_key = varInfo_key.metaData.getString("com.google.android.geo.API_KEY");
         } catch (PackageManager.NameNotFoundException pE) {
             pE.printStackTrace();

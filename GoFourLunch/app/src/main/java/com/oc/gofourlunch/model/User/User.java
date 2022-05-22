@@ -6,16 +6,14 @@ import java.util.List;
 
 public class User {
 
-
     private String name;
     private String mail;
     private String photoURL;
     private String restaurantId;
     private String restaurantType;
     private String restaurantName;
-    private boolean likeRestaurant;
     private String restaurantAddress;
-    private String restaurantLiked;
+    private List<String> restaurantLikedId;
     private List<String> subscribedCoworkers;
 
     //--------------
@@ -60,8 +58,7 @@ public class User {
                 String restaurantId,
                 String restaurantType,
                 String restaurantName,
-                boolean likeRestaurant,
-                String restaurantLiked,
+                List<String> restaurantLikedId,
                 List<String> subscribedCoworkers) {
         this.name = name;
         this.mail = mail;
@@ -69,8 +66,7 @@ public class User {
         this.restaurantId = restaurantId;
         this.restaurantType=restaurantType;
         this.restaurantName=restaurantName;
-        this.likeRestaurant = likeRestaurant;
-        this.restaurantLiked = restaurantLiked;
+        this.restaurantLikedId = restaurantLikedId;
         this.subscribedCoworkers = subscribedCoworkers;
     }
 
@@ -125,20 +121,12 @@ public class User {
         restaurantAddress = pRestaurantAddress;
     }
 
-    public boolean isLikeRestaurant() {
-        return likeRestaurant;
+    public List<String> getRestaurantLikedId() {
+        return restaurantLikedId;
     }
 
-    public void setLikeRestaurant(boolean pLikeRestaurant) {
-        likeRestaurant = pLikeRestaurant;
-    }
-
-    public String getRestaurantLiked() {
-        return restaurantLiked;
-    }
-
-    public void setRestaurantLiked(String pRestaurantLiked) {
-        restaurantLiked = pRestaurantLiked;
+    public void setRestaurantLikedId(List<String> pRestaurantLikedId) {
+        restaurantLikedId = pRestaurantLikedId;
     }
 
     public List<String> getSubscribedCoworkers() {
